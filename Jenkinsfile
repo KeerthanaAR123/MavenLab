@@ -1,31 +1,41 @@
 pipeline {
-  agent any {
+    agent any
+
     tools {
-      maven:'Maven'
-      jdk:'JDK21'
+        maven 'Maven'
+        jdk 'JDK21'
     }
-  }
     stages {
-      stage('Checkout') {
-        steps {
-          git branch :'main',url:'https://github.com/KeerthanaAR123/MavenLab.git',
-            credentialsID:'github-token'
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/Naveen04jan/ven.git',
+                    credentialsId: 'github-token'
+            }
         }
-      }
-      stage('Test') {
-        steps {
-          sh 'mvn test'
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
         }
-      }
-      stage('Package') {
-        steps {
-          sh 'mn package'
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
         }
-      }
-      stage('Run Application') {
-        steps {
-          sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
+
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
         }
-      }
+
+        stage('Run Application') {
+            steps {
+                sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
+            }
+        }
     }
 }
